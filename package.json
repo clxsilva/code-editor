@@ -1,0 +1,22 @@
+{
+  "name": "code-editor",
+  "version": "1.0.0",
+  "description": "Mini Editor de Código com Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clxsilva/code-editor.git"
+  },
+  "author": "Claudio Silva",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/clxsilva/code-editor/issues"
+  },
+  "homepage": "https://github.com/clxsilva/code-editor#readme",
+  "devDependencies": {
+    "electron": "^36.0.0"
+  }
+}
