@@ -1,17 +1,38 @@
+const { nativeTheme } = require('electron')
 const { app, BrowserWindow } = require('electron/main')
 const path = require('node:path')
 
+let win
 function createWindow () {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+
+  nativeTheme.themeSource = 'dark'
+  win = new BrowserWindow({
+    width: 1010,
+    height: 720,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
   })
 
-  win.loadFile('index.html')
+  win.loadFile('./src/views/index.html')
 }
+
+function aboutWindow () {
+  nativeTheme.themeSource = 'dark'
+  const win = new BrowserWindow({
+    width: 320,
+    height: 160,
+    autoHideMenuBar: true,
+    resizable: false,
+    minimizable: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+
+  win.loadFile('./src/views/sobre.html')
+}
+
 
 app.whenReady().then(() => {
   createWindow()
@@ -28,3 +49,121 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+const template = [
+  {
+      label: 'Arquivo',
+      submenu: [
+          {
+              label: 'Novo',
+              accelerator: 'CmdOrCtrl+N'                
+          },
+          {
+              label: 'Abrir',
+              accelerator: 'CmdOrCtrl+O'                
+          },
+          {
+              label: 'Salvar',
+              accelerator: 'CmdOrCtrl+S'               
+          },
+          {
+              label: 'Salvar como',
+              accelerator: 'CmdOrCtrl+Shift+S'             
+          },
+          {
+              type: 'separator'
+          },
+          {
+              label: 'Sair',
+              click: () => app.quit(),
+              accelerator: 'Alt+F4'
+          }
+      ]
+  },
+  {
+      label: 'Editar',
+      submenu: [
+          {
+              label: 'Desfazer',
+              role: 'undo'
+          },
+          {
+              label: 'Refazer',
+              role: 'redo'
+          },
+          {
+              type: 'separator'
+          },
+          {
+              label: 'Recortar',
+              role: 'cut'
+          },
+          {
+              label: 'Copiar',
+              role: 'copy'
+          },
+          {
+              label: 'Colar',
+              role: 'paste'
+          }
+      ]
+  },
+  {
+      label: 'Zoom',
+      submenu: [
+          {
+              label: 'Aplicar zoom',
+              role: 'zoomIn'
+          },
+          {
+              label: 'Reduzir',
+              role: 'zoomOut'
+          },
+          {
+              label: 'Restaurar o zoom padrão',
+              role: 'resetZoom'
+          }
+      ]
+
+  },
+  {
+      label: 'Cor',
+      submenu: [
+          {
+              label: 'Amarelo'
+          },
+          {
+              label: 'Azul'
+          },
+          {
+              label: 'Laranja'
+          },
+          {
+              label: 'Pink'
+          },
+          {
+              label: 'Roxo'
+          },
+          {
+              label: 'Verde'
+          },
+          {
+              type: 'separator'
+          },
+          {
+              label: 'Restaurar a cor padrão'
+          }
+      ]
+  },
+  {
+      label: 'Ajuda',
+      submenu: [
+          {
+              label: 'Repositório'
+          },            
+          {
+              label: 'Sobre'
+          }
+      ]
+  }
+]
