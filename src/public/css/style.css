@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: IBMPlexSans;
+    src: url('../IBM_Plex_Sans/IBMPlexSans-Italic-VariableFont_wdth\,wght.ttf');
+    src: url('../IBM_Plex_Sans/IBMPlexSans-VariableFont_wdth\,wght.ttf')
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "IBMPPlexSans";
+}
+
+/* Sobre */
+#sobre {
+    padding: 20px;
+}
+
+#sobre h1 {
+    font-size: 1.2em;
+}
