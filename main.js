@@ -1,5 +1,8 @@
-const { nativeTheme, app, BrowserWindow, Menu, shell } = require('electron/main')
+const { nativeTheme, app, BrowserWindow, Menu, shell, dialog } = require('electron/main')
 const path = require('node:path')
+
+let file = {}
+const fs = require('fs')
 
 let win
 function createWindow() {
@@ -62,11 +65,13 @@ const template = [
         submenu: [
             {
                 label: 'Novo',
-                accelerator: 'CmdOrCtrl+N'
+                accelerator: 'CmdOrCtrl+N',
+                click: () => novoArquivo()
             },
             {
                 label: 'Abrir',
-                accelerator: 'CmdOrCtrl+O'
+                accelerator: 'CmdOrCtrl+O',
+                click: () => abrirArquivo()
             },
             {
                 label: 'Salvar',
@@ -169,6 +174,15 @@ const template = [
         ]
     },
     {
+        label: 'Ferramentas',
+        submenu: [
+            {
+                label: 'DevTools',
+                role: 'toogleDevTools'
+            }
+        ]
+    },
+    {
         label: 'Ajuda',
         submenu: [
             {
@@ -182,3 +196,39 @@ const template = [
         ]
     }
 ]
+
+// Novo arquivo
+function novoArquivo() {
+    file = {
+        name: "Sem título",
+        content: "",
+        saved: false,
+        path: app.getPath('documents') + 'Sem título'
+    }
+    win.webContents.send('set-file', file)
+}
+
+// Abrir arquivo
+async function abrirArquivo() {
+    try {
+        const dialogFile = await dialog.showOpenDialog({
+            defaultPath: '',
+            properties: ['openFile']
+        })
+        if (dialogFile.canceled) {
+            return false
+        } else {
+            const filePath = dialogFile.filePaths[0]
+            const fileContent = fs.readFileSync(filePath, 'utf-8')
+            file = {
+                name: path.basename(filePath),
+                content: fileContent,
+                saved: true,
+                path: filePath
+            }
+            win.webContents.send('set-file', file)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
